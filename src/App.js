@@ -19,7 +19,7 @@ function App() {
     )
       .then((response) => response.json())
       .then((data) => {
-        //console.log("fetch data: ", data);
+        console.log("fetch data: ", data);
 
         setState((prevState) => ({
           ...prevState,
@@ -258,38 +258,40 @@ function App() {
     }
   });
   // Фильтр наши - не наши мероприятия
-  events = events.filter((obj) => {
-    //console.log("filter", state.select.type);
-    let cat = obj.category;
-    switch (state.select.type) {
-      case "all-events":
-        return true;
-      case "russoft-events":
-        if (
-          Array.isArray(cat) &&
-          cat.length > 0 &&
-          cat[0].slug !== "russoft-events"
-        ) {
-          //console.log("Это не РУССОФТ!", cat[0].slug);
-          count--;
-          return false;
-        }
+  events = events
+    .filter((obj) => {
+      //console.log("filter", state.select.type);
+      let cat = obj.category;
+      switch (state.select.type) {
+        case "all-events":
+          return true;
+        case "russoft-events":
+          if (
+            Array.isArray(cat) &&
+            cat.length > 0 &&
+            cat[0].slug !== "russoft-events"
+          ) {
+            //console.log("Это не РУССОФТ!", cat[0].slug);
+            count--;
+            return false;
+          }
 
-        return 1;
-      case "partners-events":
-        if (
-          Array.isArray(cat) &&
-          cat.length > 0 &&
-          cat[0].slug !== "partners-events"
-        ) {
-          count--;
-          return false;
-        }
-        return 1;
-      default:
-        return 1;
-    }
-  });
+          return 1;
+        case "partners-events":
+          if (
+            Array.isArray(cat) &&
+            cat.length > 0 &&
+            cat[0].slug !== "partners-events"
+          ) {
+            count--;
+            return false;
+          }
+          return 1;
+        default:
+          return 1;
+      }
+    })
+    .reverse();
   //console.log("events", events);
   let listEvents = events.map((v, key) => <EventDiv key={key} event={v} />);
   //console.log(state);
