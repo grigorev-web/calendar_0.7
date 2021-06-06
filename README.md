@@ -1,2 +1,2 @@
-# calendar_0.7
+# calendar
 Created with CodeSandbox
