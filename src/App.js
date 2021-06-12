@@ -319,6 +319,9 @@ function App() {
             //console.log("Это не РУССОФТ!", cat[0].slug);
             count--;
             return false;
+          } else if (!Array.isArray(cat)) {
+            count--;
+            return false;
           }
 
           return 1;
@@ -328,6 +331,23 @@ function App() {
             cat.length > 0 &&
             cat[0].slug !== "partners-events"
           ) {
+            count--;
+            return false;
+          } else if (!Array.isArray(cat)) {
+            count--;
+            return false;
+          }
+          return 1;
+
+        case "company-events":
+          if (
+            Array.isArray(cat) &&
+            cat.length > 0 &&
+            cat[0].slug !== "company-events"
+          ) {
+            count--;
+            return false;
+          } else if (!Array.isArray(cat)) {
             count--;
             return false;
           }
@@ -361,6 +381,7 @@ function App() {
             <option value="all-events">Все мероприятия</option>
             <option value="russoft-events">Мероприятия РУССОФТ</option>
             <option value="partners-events">Мероприятия партнеров</option>
+            <option value="company-events">Мероприятия компаний</option>
           </select>
 
           <select value={state.select.period} onChange={handleSelectPeriod}>
