@@ -144,7 +144,7 @@ function App() {
         }));
         break;
       ///////////////////////
-      case "last-week":
+      case "next-week":
         // console.log("last-week");
         // let entered = new Date(new Date().setDate(new Date().getDate() + 7));
         //console.log("log:", entered);
@@ -162,7 +162,7 @@ function App() {
         }));
         break;
       //////////////////////
-      case "last-month":
+      case "next-month":
         //console.log("last-month");
         setState((prevState) => ({
           ...prevState,
@@ -178,7 +178,7 @@ function App() {
         }));
         break;
       //////////////////////
-      case "last-half-year":
+      case "next-half-year":
         //console.log("last-half-year");
         setState((prevState) => ({
           ...prevState,
@@ -194,7 +194,7 @@ function App() {
         }));
         break;
       ///////////////////////
-      case "last-year":
+      case "next-year":
         //console.log("last-year");
         setState((prevState) => ({
           ...prevState,
@@ -210,13 +210,58 @@ function App() {
         }));
         break;
       ///////////////////////
+      case "last-week":
+        setState((prevState) => ({
+          ...prevState,
+          range: {
+            from: new Date(new Date().setDate(new Date().getDate() - 7)),
+            to: new Date(new Date().setHours(23, 59))
+          },
+          select: {
+            ...prevState,
+            period: event.target.value
+          },
+          enteredTo: new Date()
+        }));
+        break;
+      //////////////////////
+      case "last-month":
+        setState((prevState) => ({
+          ...prevState,
+          range: {
+            from: new Date(new Date().setDate(new Date().getDate() - 30)),
+            to: new Date(new Date().setHours(23, 59))
+          },
+          select: {
+            ...prevState,
+            period: event.target.value
+          },
+          enteredTo: new Date()
+        }));
+        break;
+      //////////////////////
+      case "last-year":
+        setState((prevState) => ({
+          ...prevState,
+          range: {
+            from: new Date(new Date().setDate(new Date().getDate() - 365)),
+            to: new Date(new Date().setHours(23, 59))
+          },
+          select: {
+            ...prevState,
+            period: event.target.value
+          },
+          enteredTo: new Date()
+        }));
+        break;
+      //////////////////////
       default:
       //console.log("error period");
     }
   }
   const { range, enteredTo } = state;
   //const modifiers = { start: range.from, end: enteredTo };
-  const disabledDays = { before: state.range.from };
+  const disabledDays = { before: new Date() }; //state.range.from };
   const selectedDays = [range.from, { from: range.from, to: enteredTo }]; //o: enteredTo }];
 
   let highlighted = Object.entries(state.events).map(([k, v], key) => {
@@ -320,10 +365,14 @@ function App() {
 
           <select value={state.select.period} onChange={handleSelectPeriod}>
             <option value="all-period">За все время</option>
-            <option value="last-week">На неделю</option>
-            <option value="last-month">На месяц</option>
-            <option value="last-half-year">На полгода</option>
-            <option value="last-year">На год</option>
+            <option value="next-week">На неделю</option>
+            <option value="next-month">На месяц</option>
+            <option value="next-half-year">На полгода</option>
+            <option value="next-year">На год</option>
+
+            <option value="last-week">Прошедшая неделя</option>
+            <option value="last-month">Прошедший месяц</option>
+            <option value="last-year">Прошедший год</option>
           </select>
         </div>
         {/* !range.from && !range.to && "Please select the first day." */}
